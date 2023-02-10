@@ -1,3 +1,3 @@
 # Solidus
 
-Decentralised social network - build on the Ethereum blockchain
+Decentralised social network built on the Ethereum blockchain
