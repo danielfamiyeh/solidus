@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-project",
+  "name": "@solidus/backend",
   "scripts": {
     "test": "npx hardhat test",
     "prettier": "prettier --write 'contracts/**/*.sol'"
