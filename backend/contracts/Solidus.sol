@@ -1,44 +1,31 @@
 // contracts/Solidus.sol
+// SPDX-License-Identifier: MIT
 
-// SPDX-Licence-Identififer: MIT
+import './SolidusPost.sol';
+import './SolidusUser.sol';
 
+pragma solidity ^0.8.0;
 
-contract Solidus {
+contract Solidus is SolidusUser, SolidusPost {
   address private _owner;
-  mapping (address => User) users;
-
-  struct User {
-    string username;
-    address addr;
-  }
-
-  struct Post {
-    address from;
-    PostContent[] content;
-  }
-
-  struct PostContent {
-    string postText;
-    string postImage;
-  }
-
+  
   constructor(){
     _owner = msg.sender;
   }
 
-  // USER METHODS
-  function userSignUp(string calldata username ) public {
-    require(userNotExists(msg.sender), 'You already have an account');
-    users[msg.sender] = User(username, msg.sender);
+  function getPosts(address user) public view onlyWithAccount returns(Post[] memory)  {
+    return _getPosts(user);
+  } 
+  function getPost(address user, bytes32 uuid) public view onlyWithAccount returns(Post memory post, uint index) {
+    return _getPost(user, uuid);
   }
-
-  function userSignIn() public view returns(User memory) {
-    require(!userNotExists(msg.sender), 'Please create an account first');
-    return users[msg.sender];
+  function createPost( PostContent[] calldata postContent) public onlyWithAccount {
+    _createPost(postContent);
+  } 
+  function updatePost(bytes32 id, PostContent[] calldata postContent) public onlyWithAccount {
+    _updatePost(id, postContent);
   }
-
-  function userNotExists(address addr) public view returns(bool){
-    return users[addr].addr == address(0);
+  function deletePost(bytes32 id) public onlyWithAccount {
+    _deletePost(id);
   }
-  
 }
