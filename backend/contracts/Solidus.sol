@@ -13,6 +13,10 @@ contract Solidus is SolidusUser, SolidusPost {
     _owner = msg.sender;
   }
 
+  function getOwner() public view returns (address) {
+    return _owner;
+  }
+
   function getPosts(
     address user
   ) public view onlyWithAccount returns (Post[] memory) {
