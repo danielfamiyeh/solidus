@@ -34,7 +34,7 @@ contract Solidus is SolidusUser, SolidusPost {
     string memory text,
     string memory image
   ) public onlyWithAccount {
-    _createPost(text, image);
+    return _createPost(text, image);
   }
 
   function updatePost(
