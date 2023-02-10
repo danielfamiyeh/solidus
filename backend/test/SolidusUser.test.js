@@ -20,8 +20,38 @@ describe('User test suite', function () {
   });
 
   describe('CRUD methods', () => {
-    it('should', () => {
-      console.log({ deployer });
+    it('should create and retrieve a user account', async () => {
+      await testSolidusContract.userSignUp('kwaks', '');
+
+      const user = await testSolidusContract.getUser(
+        impersonateDeployer.address
+      );
+
+      assert.equal(user.name, 'kwaks');
+      assert.equal(user.addr, impersonateDeployer.address.toString());
+    });
+
+    it('should update a user account', async () => {
+      await testSolidusContract.userSignUp('kwaks', '');
+      await testSolidusContract.userUpdate('daniel', 'a link to an image');
+
+      const user = await testSolidusContract.getUser(
+        impersonateDeployer.address
+      );
+
+      assert.equal(user.name, 'daniel');
+      assert.equal(user.avatar, 'a link to an image');
+    });
+
+    it('should delete a user account', async () => {
+      await testSolidusContract.userSignUp('kwaks', '');
+      await testSolidusContract.userDelete();
+
+      const user = await testSolidusContract.getUser(
+        impersonateDeployer.address
+      );
+
+      assert.notEqual(user.addr, impersonateDeployer.address);
     });
   });
 });
