@@ -5,8 +5,8 @@
 pragma solidity ^0.8.0;
 
 contract SolidusUser {
-  mapping (address => User) users;
-  mapping (string => bool) usernameTaken;
+  mapping(address => User) users;
+  mapping(string => bool) usernameTaken;
 
   struct User {
     address addr;
@@ -20,12 +20,15 @@ contract SolidusUser {
     users[msg.sender] = User(msg.sender, username, avatar);
   }
 
-  function userSignIn() public view returns(User memory) {
+  function userSignIn() public view returns (User memory) {
     require(!userNotExists(msg.sender), 'Please create an account first');
     return users[msg.sender];
   }
 
-  function userUpdate(string calldata username,string calldata avatar) public onlyWithAccount  {
+  function userUpdate(
+    string calldata username,
+    string calldata avatar
+  ) public onlyWithAccount {
     users[msg.sender].username = username;
     users[msg.sender].avatar = avatar;
   }
@@ -34,12 +37,12 @@ contract SolidusUser {
     delete users[msg.sender];
   }
 
-  function userNotExists(address addr) public view returns(bool){
+  function userNotExists(address addr) public view returns (bool) {
     return users[addr].addr == address(0);
   }
 
   modifier onlyWithAccount() {
-    require(!userNotExists(msg.sender),'Please create an account');
+    require(!userNotExists(msg.sender), 'Please create an account');
     _;
   }
 }
