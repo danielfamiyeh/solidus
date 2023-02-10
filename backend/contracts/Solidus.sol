@@ -19,10 +19,25 @@ contract Solidus is SolidusUser, SolidusPost {
     return _getPosts(user);
   }
 
+  function getPost(
+    address user,
+    bytes32 uuid
+  ) public view onlyWithAccount returns (Post memory) {
+    return _getPost(user, uuid);
+  }
+
   function createPost(
     string memory text,
     string memory image
   ) public onlyWithAccount {
     _createPost(text, image);
+  }
+
+  function updatePost(
+    bytes32 uuid,
+    string memory text,
+    string memory image
+  ) public onlyWithAccount {
+    _updatePost(uuid, text, image);
   }
 }

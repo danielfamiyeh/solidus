@@ -23,9 +23,18 @@ contract SolidusPost {
     for (uint i = 0; i < _postIds.length; i++) {
       userPosts[i] = posts[user][_postIds[i]];
     }
+
+    return userPosts;
   }
 
-  function _createPost(string memory text, string memory image) public {
+  function _getPost(
+    address user,
+    bytes32 uuid
+  ) internal view returns (Post memory) {
+    return posts[user][uuid];
+  }
+
+  function _createPost(string memory text, string memory image) internal {
     bytes32 uuid = keccak256(abi.encodePacked(block.timestamp, msg.sender));
     Post storage post = posts[msg.sender][uuid];
     post.id = uuid;
@@ -36,5 +45,18 @@ contract SolidusPost {
     post.updatedAt = 0;
 
     postIds[msg.sender].push(uuid);
+  }
+
+  function _updatePost(
+    bytes32 uuid,
+    string memory text,
+    string memory image
+  ) internal {
+    require(posts[msg.sender][uuid].id == uuid, 'Post does not exist');
+
+    Post storage post = posts[msg.sender][uuid];
+    post.text = text;
+    post.image = image;
+    post.updatedAt = block.timestamp;
   }
 }
