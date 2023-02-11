@@ -6,7 +6,7 @@ import './SolidusUser.sol';
 
 pragma solidity ^0.8.0;
 
-contract Solidus is SolidusUser, SolidusPost {
+contract Solidus is SolidusPost, SolidusUser {
   address private _owner;
 
   constructor() {
