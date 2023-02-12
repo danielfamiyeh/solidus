@@ -46,7 +46,7 @@ function Modal(props: ModalProps) {
         <div className="h-0.5 bg-black" />
         <div className="modal__body my-3">{props.children}</div>
         <div className="h-0.5 bg-black" />
-        <div className="modal__footer my-2">{props.Footer}</div>
+        <div className="modal__footer mt-3">{props.Footer}</div>
       </div>
     </div>
   );
