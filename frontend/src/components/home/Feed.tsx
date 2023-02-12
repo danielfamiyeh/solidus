@@ -5,13 +5,11 @@ import { post1 } from '@/utils/data/Post';
 
 export default function Feed() {
   return (
-    <div
-      className={`post-feed border-slate w-[100%] h-[calc(100%)] overflow-auto`}
-    >
+    <div className="post-feed border-slate w-[100%] h-[calc(100%)] overflow-auto">
       {new Array(20).fill(null).map((_, i) => (
         <div
           key={`post-${i}`}
-          className="post-feed__post-item bg-[var(--sol-secondary-bg)] pt-4"
+          className="post-feed__post-item bg-[var(--sol-bg-secondary)] border-black border-8 pt-4 my-4"
         >
           <div className="post-feed__post-item-meta flex items-center px-2 my-2">
             {
@@ -36,7 +34,7 @@ export default function Feed() {
             {!!post1.text && !!post1.image && <hr className="mb-4" />}
             {!!post1.image && (
               <img
-                className="my-2 border-black border-4"
+                className="my-2 border-black border-2"
                 src={post1.image}
                 alt="Post image"
               />
