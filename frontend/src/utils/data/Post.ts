@@ -10,5 +10,5 @@ export const post1: PostModel = {
   createdByName: user1.name,
   createdByAddress: user1.addr,
   createdByAvatar: user1.avatar,
-  createdAt: Date.now() - 3600,
+  createdAt: Date.now(),
 };

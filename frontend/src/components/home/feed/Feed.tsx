@@ -1,8 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from 'next/image';
+import moment from 'moment';
 
 import { post1 } from '@/utils/data/Post';
-import sizes from '@/utils/constants/sizes';
 
 export default function Feed() {
   return (
@@ -27,6 +26,9 @@ export default function Feed() {
             <div>
               <h2 className="text-xl">{post1.createdByName}</h2>
               <p className="text-sm text-black/50">{post1.createdByAddress}</p>
+              <small className="text-black/50">
+                {moment.unix(post1.createdAt).fromNow()}
+              </small>
             </div>
           </div>
           <div className="post-feed__post-feed-content p-2">
