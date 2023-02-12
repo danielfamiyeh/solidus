@@ -13,7 +13,7 @@ function SearchInput() {
   };
   return (
     <form
-      className="flex justify-between w-[100%] border-2 bg-[white] px-3"
+      className="flex justify-between w-[100%] border-2 border-black bg-[white] px-3"
       onSubmit={onSearch}
     >
       <input

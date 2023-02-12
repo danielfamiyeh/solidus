@@ -36,7 +36,7 @@ export default function Feed() {
             {!!post1.text && !!post1.image && <hr className="mb-4" />}
             {!!post1.image && (
               <img
-                className="rounded-md my-2"
+                className="my-2 border-black border-4"
                 src={post1.image}
                 alt="Post image"
               />
