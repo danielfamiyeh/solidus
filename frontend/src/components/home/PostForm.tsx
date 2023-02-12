@@ -22,7 +22,7 @@ function PostForm() {
         Footer={
           <footer className="text-center">
             <button
-              className="border-4 border-black px-2 py-1 hover:opacity-50 active:opacity-25"
+              className="border-4 border-black px-2 py-1 font-bold hover:opacity-50 active:opacity-25"
               onClick={onCreatePost}
             >
               Submit

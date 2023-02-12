@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import moment from 'moment';
+import Link from 'next/link';
 
 import { post1 } from '@/utils/data/Post';
 
@@ -11,16 +12,17 @@ export default function Feed() {
           key={`post-${i}`}
           className="post-feed__post-item bg-[var(--sol-bg-secondary)] border-black border-8 pt-4 my-4"
         >
-          <div className="post-feed__post-item-meta flex items-center px-2 my-2">
-            {
-              <img
-                className="rounded-full mr-2"
-                src={post1.createdByAvatar}
-                width={64}
-                height={64}
-                alt="Profile avatar"
-              />
-            }
+          <Link
+            href={`/profile/${post1.createdByAddress}`}
+            className="post-feed__post-item-meta flex items-center cursor-pointer px-2 my-2 hover:opacity-75 active:opacity-50"
+          >
+            <img
+              className="rounded-full mr-2"
+              src={post1.createdByAvatar}
+              width={64}
+              height={64}
+              alt="Profile avatar"
+            />
             <div>
               <h2 className="text-xl">{post1.createdByName}</h2>
               <p className="text-sm text-black/50">{post1.createdByAddress}</p>
@@ -28,7 +30,7 @@ export default function Feed() {
                 {moment.unix(post1.createdAt).fromNow()}
               </small>
             </div>
-          </div>
+          </Link>
           <div className="post-feed__post-feed-content p-2">
             <p className="my-2">{post1.text}</p>
             {!!post1.text && !!post1.image && <hr className="mb-4" />}
