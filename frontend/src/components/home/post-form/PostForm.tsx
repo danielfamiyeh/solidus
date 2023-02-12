@@ -1,21 +1,18 @@
-import { FormEvent } from 'react';
-import sizes from '@/utils/constants/sizes';
+import Image from 'next/image';
+
+import writeIcon from '@/assets/home/header/write.svg';
 
 function PostForm() {
-  const onSubmitPost = (e: FormEvent) => {
-    e.preventDefault();
-  };
+  const onCreateButtonClick = () => {};
   return (
-    <form
-      className={`border-2 h-[${sizes.postFormHeight}px]`}
-      onSubmit={onSubmitPost}
-    >
-      <textarea
-        className="w-[100%] h-[100%]"
-        placeholder="Begin your post here..."
-        style={{ resize: 'none' }}
-      />
-    </form>
+    <>
+      <button
+        className="hover:opacity-50 active:opacity-25"
+        onClick={onCreateButtonClick}
+      >
+        <Image src={writeIcon} width={32} height={32} alt="Write post icon" />
+      </button>
+    </>
   );
 }
 

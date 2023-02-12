@@ -7,10 +7,13 @@ import sizes from '@/utils/constants/sizes';
 export default function Feed() {
   return (
     <div
-      className={`post-feed border-slate border-4 w-[100%] h-[calc(100%-180px)] overflow-auto`}
+      className={`post-feed border-slate w-[100%] h-[calc(100%)] overflow-auto`}
     >
       {new Array(20).fill(null).map((_, i) => (
-        <div key={`post-${i}`} className="post-feed__post-item">
+        <div
+          key={`post-${i}`}
+          className="post-feed__post-item bg-[var(--sol-secondary-bg)] pt-4"
+        >
           <div className="post-feed__post-item-meta flex items-center px-2 my-2">
             {
               <img
@@ -23,7 +26,7 @@ export default function Feed() {
             }
             <div>
               <h2 className="text-xl">{post1.createdByName}</h2>
-              <p className="text-sm text-black/75">{post1.createdByAddress}</p>
+              <p className="text-sm text-black/50">{post1.createdByAddress}</p>
             </div>
           </div>
           <div className="post-feed__post-feed-content p-2">
