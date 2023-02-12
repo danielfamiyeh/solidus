@@ -2,10 +2,13 @@
 import Image from 'next/image';
 
 import { post1 } from '@/utils/data/Post';
+import sizes from '@/utils/constants/sizes';
 
 export default function Feed() {
   return (
-    <div className="post-feed border-slate border-4 w-screen lg:w-1/2 max-w-xl overflow-auto">
+    <div
+      className={`post-feed border-slate border-4 w-[100%] h-[calc(100%-180px)] overflow-auto`}
+    >
       {new Array(20).fill(null).map((_, i) => (
         <div key={`post-${i}`} className="post-feed__post-item">
           <div className="post-feed__post-item-meta flex items-center px-2 my-2">
