@@ -18,9 +18,12 @@ function Modal(props: ModalProps) {
     };
   }, [closeOnEscapeKeyDown]);
 
-  return props.show ? (
+  if (!props.show) return null;
+  return (
     <div
-      className="modal fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex items-center justify-center"
+      className={`modal fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex items-center justify-center ${
+        props.show ? 'show' : ''
+      }`}
       onClick={props.onHide}
     >
       <div
@@ -46,7 +49,7 @@ function Modal(props: ModalProps) {
         <div className="modal__footer my-2">{props.Footer}</div>
       </div>
     </div>
-  ) : null;
+  );
 }
 
 Modal.defaultProps = {
