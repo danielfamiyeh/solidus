@@ -19,11 +19,11 @@
       });
 
       impersonateDeployer = await ethers.getSigner(deployer.toString());
-      await testSolidusContract.userSignUp('kwaks', '');
+      await testSolidusContract.userAuth();
     });
 
     describe('CRUD methods', () => {
-      it('should create and retriee post', async () => {
+      it('should create and retrieve post', async () => {
         await testSolidusContract.createPost('post text', 'post image');
 
         const [post] = await testSolidusContract.getPosts(
