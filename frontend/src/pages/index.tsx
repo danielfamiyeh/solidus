@@ -20,7 +20,7 @@ export default function Home() {
 
       <main className="h-screen">
         <div className="hero rounded-lg p-5 text-center flex h-[100%]">
-          <div className="hero__left border-slate w-[100%] lg:w-1/2 p-1">
+          <div className="hero__left border-slate w-[100%] lg:w-1/2 p-1 flex flex-col items-center justify-center">
             <h1 className="text-7xl xl:text-8xl 2xl:text-9xl select-none p-2">
               a decentralised social network for the people
             </h1>
