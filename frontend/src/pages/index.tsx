@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import landingBlobs from '@/assets/landing/blobs';
-import LandingHeader from '@/components/landing/header/Header';
+import LandingHeader from '@/components/landing/Header';
 
 const blobSize = 240;
 
@@ -13,7 +13,7 @@ export default function Landing() {
         <title>Solidus</title>
         <meta
           name="description"
-          content="Decentralised social networking application"
+          content="Decentralized social networking application"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -24,7 +24,7 @@ export default function Landing() {
         <div className="hero home rounded-lg p-5 text-center flex h-[100%]">
           <div className="hero__left border-slate w-[100%] lg:w-1/2 p-1 flex flex-col items-center justify-center">
             <h1 className="text-7xl xl:text-8xl 2xl:text-9xl select-none p-2">
-              decentralised social network for the people
+              decentralized social network for the people
             </h1>
             <hr className="my-6" />
             <p className="p-2 pt-0">

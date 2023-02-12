@@ -1,5 +1,5 @@
-import Feed from '@/components/home/feed/Feed';
-import HomeHeader from '@/components/home/header/Header';
+import Feed from '@/components/home/Feed';
+import HomeHeader from '@/components/home/Header';
 
 function Home() {
   return (
