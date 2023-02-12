@@ -23,19 +23,23 @@
 
     describe('CRUD methods', () => {
       it('should create and retrieve a user account', async () => {
-        await testSolidusContract.userSignUp('kwaks', '');
+        await testSolidusContract.userAuth();
 
         const user = await testSolidusContract.getUser(
           impersonateDeployer.address
         );
 
-        assert.equal(user.name, 'kwaks');
         assert.equal(user.addr, impersonateDeployer.address.toString());
       });
 
       it('should update a user account', async () => {
-        await testSolidusContract.userSignUp('kwaks', '');
-        await testSolidusContract.userUpdate('daniel', 'a link to an image');
+        await testSolidusContract.userAuth();
+        await testSolidusContract.userUpdate(
+          'daniel',
+          'a link to an image',
+          'a link to a cover photo',
+          'test bio'
+        );
 
         const user = await testSolidusContract.getUser(
           impersonateDeployer.address
@@ -43,10 +47,12 @@
 
         assert.equal(user.name, 'daniel');
         assert.equal(user.avatar, 'a link to an image');
+        assert.equal(user.coverPhoto, 'a link to a cover photo');
+        assert.equal(user.bio, 'test bio');
       });
 
       it('should delete a user account', async () => {
-        await testSolidusContract.userSignUp('kwaks', '');
+        await testSolidusContract.userAuth();
         await testSolidusContract.userDelete();
 
         const user = await testSolidusContract.getUser(

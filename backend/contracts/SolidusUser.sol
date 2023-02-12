@@ -11,25 +11,29 @@ contract SolidusUser {
     address addr;
     string name;
     string avatar;
+    string coverPhoto;
+    string bio;
   }
 
-  function userSignUp(string calldata name, string calldata avatar) public {
-    require(userNotExists(msg.sender), 'You already have an account');
-    require(!nameTaken[name], 'This name has been taken');
-    users[msg.sender] = User(msg.sender, name, avatar);
-  }
-
-  function userSignIn() public view returns (User memory) {
-    require(!userNotExists(msg.sender), 'Please create an account first');
-    return users[msg.sender];
+  function userAuth() public returns (User memory user) {
+    if (userNotExists(msg.sender)) {
+      user = User(msg.sender, '', '', '', '');
+      users[msg.sender] = user;
+    } else {
+      user = users[msg.sender];
+    }
   }
 
   function userUpdate(
     string calldata name,
-    string calldata avatar
+    string calldata avatar,
+    string calldata coverPhoto,
+    string calldata bio
   ) public onlyWithAccount {
     users[msg.sender].name = name;
     users[msg.sender].avatar = avatar;
+    users[msg.sender].coverPhoto = coverPhoto;
+    users[msg.sender].bio = bio;
   }
 
   function userDelete() public onlyWithAccount {
