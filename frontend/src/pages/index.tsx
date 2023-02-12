@@ -2,10 +2,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import landingBlobs from '@/assets/landing/blobs';
+import LandingHeader from '@/components/landing/header/Header';
 
 const blobSize = 240;
 
-export default function Home() {
+export default function Landing() {
   return (
     <>
       <Head>
@@ -19,7 +20,8 @@ export default function Home() {
       </Head>
 
       <main className="h-screen">
-        <div className="hero rounded-lg p-5 text-center flex h-[100%]">
+        <LandingHeader />
+        <div className="hero home rounded-lg p-5 text-center flex h-[100%]">
           <div className="hero__left border-slate w-[100%] lg:w-1/2 p-1 flex flex-col items-center justify-center">
             <h1 className="text-7xl xl:text-8xl 2xl:text-9xl select-none p-2">
               decentralised social network for the people
@@ -27,11 +29,12 @@ export default function Home() {
             <hr className="my-6" />
             <p className="p-2 pt-0">
               Join a community where your data is secure, your privacy is
-              protected, and you&apos;re in control. Our decentralized social
-              network is built on the Ethereum blockchain, giving you the power
-              to connect with friends, share content, and build a better online
-              experience - all without the risk of data breaches, censorship, or
-              manipulation.
+              protected, and you&apos;re in control.
+              <br />
+              Our decentralized social network is built on the Ethereum
+              blockchain, giving you the power to connect with friends, share
+              content, and build a better online experience - all without the
+              risk of data breaches, censorship, or manipulation.
             </p>
           </div>
           <div className="hero__right border-zinc w-1/2 hidden lg:flex flex-col items-center justify-center">
