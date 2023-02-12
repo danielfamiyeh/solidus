@@ -20,13 +20,7 @@ function PostForm() {
         show={showModal}
         title="Create Post"
         Footer={
-          <footer className="flex justify-between">
-            <button
-              className="border-4 border-rose-600 text-rose-600 px-2 py-1 hover:opacity-50 active:opacity-25"
-              onClick={() => setShowModal(false)}
-            >
-              Cancel
-            </button>
+          <footer className="text-center">
             <button
               className="border-4 border-black px-2 py-1 hover:opacity-50 active:opacity-25"
               onClick={onCreatePost}

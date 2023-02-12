@@ -20,7 +20,7 @@ function SearchInput() {
         type="text"
         placeholder="Search for a user..."
         onChange={({ target: { value } }) => setSearchValue(value)}
-        className={`w-[100%] h-[${sizes.searchInputHeight}px] py-3 rounded-md mr-8`}
+        className={`w-[100%] h-[${sizes.searchInputHeight}px] py-3 px-2 rounded-md mr-8`}
       />
 
       <button className="hover:opacity-50 active:opacity-25">
