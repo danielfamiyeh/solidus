@@ -31,4 +31,4 @@ jobs:
       - run: |
           touch .env
           echo ALCHEMY_KEY=${{secrets.ALCHEMY_KEY}} > .env
-      - run: npm I && npm run test
+      - run: npm i && npm run test
