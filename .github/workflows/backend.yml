@@ -28,4 +28,4 @@ jobs:
           cache-dependency-path: './backend/package-lock.json'
 
       - run: npm install -g npm
-      - run: npm i && npm run test
+      - run: npm i && ALCHEMY_KEY=${{secrets.ALCHEMY_KEY}} && npm run test
