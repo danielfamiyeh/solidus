@@ -47,6 +47,7 @@ contract SolidusUser {
       !_isFollowedBy[addr][msg.sender],
       'You already follow this account'
     );
+    require(addr != msg.sender, 'You cannot follow yourself');
     require(!userNotExists(addr), 'No user with that address exists');
 
     _isFollowedBy[addr][msg.sender] = true;
@@ -97,12 +98,16 @@ contract SolidusUser {
   }
 
   /** ==== GETTERS ==== */
-  function getNumFollowers(address user) public view returns (uint) {
+  function getNumFollowers(
+    address user
+  ) public view onlyWithAccount returns (uint) {
     require(!userNotExists(user), "User doesn't exist");
     return _followerLists[msg.sender].length;
   }
 
-  function getNumFollowing(address user) public view returns (uint) {
+  function getNumFollowing(
+    address user
+  ) public view onlyWithAccount returns (uint) {
     require(!userNotExists(user), "User doesn't exist");
     return _followerLists[msg.sender].length;
   }
@@ -119,6 +124,18 @@ contract SolidusUser {
   ) public view returns (address[] memory) {
     require(!userNotExists(user), "User doesn't exist");
     return _followingLists[user];
+  }
+
+  function isFollowing(
+    address user
+  ) public view onlyWithAccount returns (bool) {
+    return _isFollowedBy[user][msg.sender];
+  }
+
+  function isFollowedBy(
+    address user
+  ) public view onlyWithAccount returns (bool) {
+    return _isFollowedBy[msg.sender][user];
   }
 
   function getUser(address user) public view returns (User memory) {

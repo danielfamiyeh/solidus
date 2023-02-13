@@ -4,7 +4,8 @@
   const { describe, it } = require('mocha');
 
   describe('User test suite', function () {
-    let deployer, impersonateDeployer, testSolidusContract;
+    const user2Address = '0x00000000219ab540356cBB839Cbe05303d7705Fa';
+    let deployer, impersonateDeployer, impersonateUser2, testSolidusContract;
 
     this.beforeEach(async () => {
       const testSolidusFactory = await ethers.getContractFactory('Solidus', 0);
@@ -15,21 +16,20 @@
 
       await network.provider.request({
         method: 'hardhat_impersonateAccount',
-        params: [deployer.toString()],
+        params: [deployer],
       });
 
-      impersonateDeployer = await ethers.getSigner(deployer.toString());
+      impersonateUser2 = await ethers.getSigner(user2Address);
+      impersonateDeployer = await ethers.getSigner(deployer);
     });
 
     describe('CRUD methods', () => {
       it('should create and retrieve a user account', async () => {
         await testSolidusContract.userAuth();
 
-        const user = await testSolidusContract.getUser(
-          impersonateDeployer.address
-        );
+        const user = await testSolidusContract.getUser(deployer);
 
-        assert.equal(user.addr, impersonateDeployer.address.toString());
+        assert.equal(user.addr, deployer);
       });
 
       it('should update a user account', async () => {
@@ -41,9 +41,7 @@
           'test bio'
         );
 
-        const user = await testSolidusContract.getUser(
-          impersonateDeployer.address
-        );
+        const user = await testSolidusContract.getUser(deployer);
 
         assert.equal(user.name, 'daniel');
         assert.equal(user.avatar, 'a link to an image');
@@ -55,11 +53,49 @@
         await testSolidusContract.userAuth();
         await testSolidusContract.userDelete();
 
-        const user = await testSolidusContract.getUser(
-          impersonateDeployer.address
+        const user = await testSolidusContract.getUser(deployer);
+
+        assert.notEqual(user.addr, deployer);
+      });
+
+      it('should allow users to follow/unfollow each other', async () => {
+        await testSolidusContract.userAuth(); // Sign deployer up
+        await hre.network.provider.request({
+          method: 'hardhat_stopImpersonatingAccount',
+          params: [deployer],
+        });
+        await network.provider.request({
+          method: 'hardhat_impersonateAccount',
+          params: [user2Address],
+        });
+
+        await testSolidusContract.connect(impersonateUser2).userAuth();
+
+        await testSolidusContract
+          .connect(impersonateUser2)
+          .followUser(deployer);
+
+        const numFollowers = await testSolidusContract.getNumFollowers(
+          deployer
+        );
+        const numFollowing = await testSolidusContract.getNumFollowing(
+          user2Address
         );
 
-        assert.notEqual(user.addr, impersonateDeployer.address);
+        assert.equal(numFollowers, 1);
+        assert.equal(numFollowing, 1);
+
+        assert.equal(
+          await testSolidusContract
+            .connect(impersonateUser2)
+            .isFollowing(deployer),
+          true
+        );
+
+        assert.equal(
+          await testSolidusContract.isFollowedBy(user2Address),
+          true
+        );
       });
     });
   });
