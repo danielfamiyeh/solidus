@@ -1,3 +1,4 @@
+// test/SolidusUser.test.ts
 (() => {
   const { assert } = require('chai');
   const { network, ethers } = require('hardhat');
@@ -5,10 +6,10 @@
 
   describe('User test suite', function () {
     const user2Address = '0x00000000219ab540356cBB839Cbe05303d7705Fa';
-    let deployer, impersonateDeployer, impersonateUser2, testSolidusContract;
+    let deployer, impersonateUser2, testSolidusContract;
 
     this.beforeEach(async () => {
-      const testSolidusFactory = await ethers.getContractFactory('Solidus', 0);
+      const testSolidusFactory = await ethers.getContractFactory('Solidus');
       testSolidusContract = await testSolidusFactory.deploy();
 
       await testSolidusContract.deployed();
@@ -20,7 +21,6 @@
       });
 
       impersonateUser2 = await ethers.getSigner(user2Address);
-      impersonateDeployer = await ethers.getSigner(deployer);
     });
 
     describe('CRUD methods', () => {
@@ -75,10 +75,8 @@
           .connect(impersonateUser2)
           .followUser(deployer);
 
-        const numFollowers = await testSolidusContract.getNumFollowers(
-          deployer
-        );
-        const numFollowing = await testSolidusContract.getNumFollowing(
+        let numFollowers = await testSolidusContract.getNumFollowers(deployer);
+        let numFollowing = await testSolidusContract.getNumFollowing(
           user2Address
         );
 
@@ -95,6 +93,28 @@
         assert.equal(
           await testSolidusContract.isFollowedBy(user2Address),
           true
+        );
+
+        await testSolidusContract
+          .connect(impersonateUser2)
+          .unfollowUser(deployer);
+
+        numFollowers = await testSolidusContract.getNumFollowers(deployer);
+        numFollowing = await testSolidusContract.getNumFollowing(user2Address);
+
+        assert.equal(numFollowers, 0);
+        assert.equal(numFollowing, 0);
+
+        assert.equal(
+          await testSolidusContract
+            .connect(impersonateUser2)
+            .isFollowing(deployer),
+          false
+        );
+
+        assert.equal(
+          await testSolidusContract.isFollowedBy(user2Address),
+          false
         );
       });
     });
