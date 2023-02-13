@@ -92,12 +92,12 @@ contract SolidusPost {
     require(posts[uuid].id == uuid, 'Post does not exist');
     if (isPostLikedByUser[msg.sender][uuid]) {
       posts[uuid].numLikes--;
+      isPostLikedByUser[msg.sender][uuid] = false;
       emit UnlikePost(msg.sender, uuid, block.timestamp);
     } else {
       posts[uuid].numLikes++;
+      isPostLikedByUser[msg.sender][uuid] = true;
       emit LikePost(msg.sender, uuid, block.timestamp);
     }
   }
-
-  function _createPostComment(bytes32 uuid) internal {}
 }

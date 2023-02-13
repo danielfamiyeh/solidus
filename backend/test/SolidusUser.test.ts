@@ -1,8 +1,8 @@
 // test/SolidusUser.test.ts
 (() => {
   const { assert } = require('chai');
-  const { network, ethers } = require('hardhat');
   const { describe, it } = require('mocha');
+  const { network, ethers } = require('hardhat');
 
   describe('User test suite', function () {
     const user2Address = '0x00000000219ab540356cBB839Cbe05303d7705Fa';
