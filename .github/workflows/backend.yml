@@ -29,4 +29,4 @@ jobs:
 
       - run: npm install -g npm
       - run: touch .env && echo ${{secrets.ALCHEMY_KEY}} >> .env
-      - run: npm I && npm run test
+      - run: npm i && npm run test
