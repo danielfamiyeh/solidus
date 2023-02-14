@@ -19,8 +19,13 @@ function AuthProvider({ children }: { children: any }) {
   useEffect(() => {
     if (!address) router.push('/');
     // TODO: Display loading spinner if connecting
-    else if (address && !isConnecting) router.push('/home');
-  }, [address, router, isConnecting]);
+    else if (
+      (address && !isConnecting) ||
+      (address && router.pathname === '/')
+    ) {
+      router.push('/home');
+    }
+  }, [address, isConnecting]);
 
   return (
     <AuthContext.Provider
