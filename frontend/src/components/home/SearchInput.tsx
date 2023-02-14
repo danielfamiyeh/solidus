@@ -18,7 +18,7 @@ function SearchInput() {
     >
       <input
         type="text"
-        placeholder="Search for a user..."
+        placeholder="Paste user address..."
         onChange={({ target: { value } }) => setSearchValue(value)}
         className={`w-[100%] h-[${sizes.searchInputHeight}px] py-3 px-2 rounded-md mr-8`}
       />

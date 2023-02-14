@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { Web3Button } from '@web3modal/react';
 
 import Modal from '@/components/display/Modal';
 import cogIcon from '@/assets/home/header/cog.svg';
@@ -52,6 +53,9 @@ function SettingsForm() {
               className="px-2 py-4 border-4 border-black"
             />
           </fieldset>
+        </div>
+        <div className="mt-3 text-center">
+          <Web3Button />
         </div>
       </Modal>
     </>
