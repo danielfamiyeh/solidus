@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    infuraKey: process.env.NEXT_APP_INFURA_KEY,
+    walletConnectKey: process.env.NEXT_APP_WALLET_CONNECT_ID,
   },
 };
 

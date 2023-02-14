@@ -1,3 +1,5 @@
+import { Web3Button } from '@web3modal/react';
+
 import Logo from '@/components/display/Logo';
 import landingTitles from '@/utils/constants/landingTitles';
 
@@ -11,6 +13,9 @@ function LandingHeader() {
             {title}
           </button>
         ))}
+      </div>
+      <div className="lg:hidden">
+        <Web3Button />
       </div>
     </nav>
   );
