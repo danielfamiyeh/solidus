@@ -1,5 +1,10 @@
+import { WagmiConfig } from 'wagmi';
 import type { AppProps } from 'next/app';
+import { Web3Modal } from '@web3modal/react';
+import { ethereumClient, wagmiClient } from '@/utils/config/web3';
 import { Anton, Raleway } from '@next/font/google';
+
+import '@/styles/globals.css';
 
 const anton = Anton({
   weight: '400',
@@ -10,8 +15,6 @@ const raleway = Raleway({
   weight: '400',
   subsets: ['latin'],
 });
-
-import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -30,7 +33,14 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${anton.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />
+      <WagmiConfig client={wagmiClient}>
+        <Component {...pageProps} />
+      </WagmiConfig>
+
+      <Web3Modal
+        projectId={String(process.env.walletConnectKey)}
+        ethereumClient={ethereumClient}
+      />
     </>
   );
 }

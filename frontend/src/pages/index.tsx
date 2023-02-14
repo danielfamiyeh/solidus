@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { Web3Button } from '@web3modal/react';
 
 import landingBlobs from '@/assets/landing/blobs';
 import LandingHeader from '@/components/landing/Header';
@@ -21,7 +22,7 @@ export default function Landing() {
 
       <main className="h-screen">
         <LandingHeader />
-        <div className="hero home rounded-lg p-5 text-center flex h-[100%]">
+        <div className="hero home rounded-lg p-5  text-center flex h-[100%]">
           <div className="hero__left border-slate w-[100%] lg:w-1/2 p-1 flex flex-col items-center justify-center">
             <h1 className="text-7xl xl:text-8xl 2xl:text-9xl select-none p-2">
               decentralized social network for the people
@@ -36,6 +37,7 @@ export default function Landing() {
               content, and build a better online experience - all without the
               risk of data breaches, censorship, or manipulation.
             </p>
+            <Web3Button />
           </div>
           <div className="hero__right border-zinc w-1/2 hidden lg:flex flex-col items-center justify-center">
             <div className="flex items-center justify-center">
