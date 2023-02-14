@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { useAccount } from 'wagmi';
 import { Web3Button } from '@web3modal/react';
 
 import landingBlobs from '@/assets/landing/blobs';
@@ -8,6 +9,8 @@ import LandingHeader from '@/components/landing/Header';
 const blobSize = 240;
 
 export default function Landing() {
+  const { address, isConnecting, isDisconnected } = useAccount();
+
   return (
     <>
       <Head>

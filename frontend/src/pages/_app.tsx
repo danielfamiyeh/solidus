@@ -1,8 +1,11 @@
 import { WagmiConfig } from 'wagmi';
 import type { AppProps } from 'next/app';
 import { Web3Modal } from '@web3modal/react';
-import { ethereumClient, wagmiClient } from '@/utils/config/web3';
 import { Anton, Raleway } from '@next/font/google';
+
+import AppContext from '@/components/context';
+
+import { ethereumClient, wagmiClient } from '@/utils/config/web3';
 
 import '@/styles/globals.css';
 
@@ -34,7 +37,9 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <WagmiConfig client={wagmiClient}>
-        <Component {...pageProps} />
+        <AppContext>
+          <Component {...pageProps} />
+        </AppContext>
       </WagmiConfig>
 
       <Web3Modal
