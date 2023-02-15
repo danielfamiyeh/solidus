@@ -1,8 +1,10 @@
+import Image from 'next/image';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import HomeHeader from '@/components/home/Header';
+import accountIcon from '@/assets/home/account/account.svg';
 import { useMetamask } from '@/components/context/MetamaskContext';
 
 const fields = ['addr', 'name', 'avatar', 'coverPhoto', 'bio'];
@@ -11,6 +13,7 @@ function ProfilePage() {
   const router = useRouter();
   const [profile, setProfile] = useState();
   const { contract, account } = useMetamask();
+  const [fetched, setFetched] = useState(false);
 
   const { userAddr } = router.query;
 
@@ -18,8 +21,9 @@ function ProfilePage() {
     if (!account || !ethers.utils.isAddress(account)) return;
 
     const init = () => {
+      setProfile({});
       contract
-        ?.getUser(account)
+        ?.getUser(userAddr)
         .then((res) =>
           setProfile(
             Object.assign(
@@ -34,13 +38,14 @@ function ProfilePage() {
     };
 
     init();
-  }, [account]);
+  }, [account, userAddr]);
 
   return (
     <div className="home-page h-screen flex justify-center">
       <HomeHeader />
       <div className="content-container w-screen lg:w-1/2 max-w-xl mt-[96px]">
-        {profile?.addr === '0x0000000000000000000000000000000000000000' ? (
+        {profile?.addr === '0x0000000000000000000000000000000000000000' ||
+        !profile?.addr ? (
           <>
             <h1 className="text-center text-2xl mt-5">
               User doesn&apos;t exist
@@ -49,8 +54,21 @@ function ProfilePage() {
           </>
         ) : (
           <>
-            <p>{profile?.name || "User hasn't set a name"}</p>
-            <p>{profile?.bio || "User hasn't set a bio"}</p>
+            <div className="user-meta flex flex-col border-b-2 border-black px-2 py-4 text-center">
+              <Image
+                src={profile?.avatar ? avatar : accountIcon}
+                alt="Account icon"
+                className="self-center"
+                width={128}
+                height={128}
+              />
+              <h1 className="text-2xl">
+                {profile?.name || "User hasn't set a name"}
+              </h1>
+              <small className="text-slate-500">{profile?.addr}</small>
+              <p>{profile?.bio || "User hasn't set a bio"}</p>
+            </div>
+            <div className="recent-posts"></div>
           </>
         )}
       </div>
