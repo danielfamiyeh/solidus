@@ -5,14 +5,14 @@ import { useRouter } from 'next/router';
 
 import landingBlobs from '@/assets/landing/blobs';
 import LandingHeader from '@/components/landing/Header';
+import metamaskIcon from '@/assets/landing/metamask.png';
 import { useMetamask } from '@/components/context/MetamaskContext';
 
 const blobSize = 240;
 
 export default function Landing() {
   const router = useRouter();
-  const { connect, disconnect, account, isActive, isConnecting } =
-    useMetamask();
+  const { connect, disconnect, account, isConnecting } = useMetamask();
 
   useEffect(() => {
     if (account) router.push('/home');
@@ -48,10 +48,16 @@ export default function Landing() {
               risk of data breaches, censorship, or manipulation.
             </p>
             <button
-              className="px-4 py-2 bg-black text-white hover:opacity-75 active:opacity-50 disabled:opacity-50"
+              className="px-4 py-2 bg-black flex items-center text-white hover:opacity-75 active:opacity-50 disabled:opacity-50"
               disabled={isConnecting}
               onClick={account ? disconnect : connect}
             >
+              <Image
+                className="mr-2"
+                height={24}
+                src={metamaskIcon}
+                alt="Metamask icon"
+              />
               {account ? 'Disconnect' : 'Connect'} Wallet
             </button>
           </div>
