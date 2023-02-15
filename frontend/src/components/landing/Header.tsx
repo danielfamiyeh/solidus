@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import Logo from '@/components/display/Logo';
 import { useMetamask } from '../context/MetamaskContext';
-import landingTitles from '@/utils/constants/landingTitles';
 import metamaskIcon from '@/assets/landing/metamask.png';
 
 function LandingHeader() {
