@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
 
 import Modal from '@/components/display/Modal';
 import cogIcon from '@/assets/home/header/cog.svg';
@@ -12,26 +13,26 @@ function SettingsForm() {
   const [image, setImage] = useState('');
   const [coverPhoto, setCoverPhoto] = useState('');
   const [isInitialized, setIsInitialized] = useState(false);
+  const queryClient = useQueryClient();
 
-  const { account, contract, signer, disconnect, isConnecting } = useMetamask();
+  const { account, contract, disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
 
+  const { refetch } = useQuery(['settings', !!contract, account], async () => {
+    const user = await contract?.getUser(account);
+    if (!user) return;
+    const [, name, , , bio] = user;
+    setName(name);
+    setBio(bio);
+    setIsInitialized(true);
+  });
+
   const onSubmit = () => {
-    contract.userUpdate(name, image, coverPhoto, bio);
+    contract.userUpdate(name, image, coverPhoto, bio).then(() => {
+      queryClient.invalidateQueries(['settings', 'feed']);
+      refetch();
+    });
   };
-
-  useEffect(() => {
-    const init = () => {
-      contract?.getUser(account).then((res) => {
-        const [, name, , , bio] = res;
-        setName(name);
-        setBio(bio);
-        setIsInitialized(true);
-      });
-    };
-
-    init();
-  }, []);
 
   return (
     <>
