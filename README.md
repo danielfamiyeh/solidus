@@ -1,6 +1,6 @@
 # Solidus
 
-![Server CI](https://github.com/danielfamiyeh/solidus/actions/workflows/backend.yml/badge.svg)
+Decentralized social network built on the Ethereum blockchain
 
 <b>Features</b>
 
@@ -10,7 +10,7 @@
 - Post creation: Users can make new posts that contain both text and images.
 - Profile updates: Users can edit their personal information, such as their name, bio, and profile picture.
 
-Decentralized social network built on the Ethereum blockchain
+
 
 ![Landing Page](./media/screenshots/home.png)
 ![Feed](./media/screenshots/feed.png)
