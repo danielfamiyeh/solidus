@@ -5,6 +5,7 @@ export const solidusAbi = [
   // SolidusUser
   'function userUpdate(string name, string avatar, string coverPhoto, string bio) public',
   'function userDelete() public',
+  'function followUser(address addr) public',
   'function unfollowUser(address addr) public',
   'function userNotExists(address addr) public view returns (bool)',
   'function getUserAddress(address user) public view returns(string)',
