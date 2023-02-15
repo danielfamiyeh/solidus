@@ -17,6 +17,7 @@ export default function Landing() {
   useEffect(() => {
     if (account) router.push('/home');
   }, [account]);
+
   return (
     <>
       <Head>

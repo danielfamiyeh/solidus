@@ -4,10 +4,12 @@ import { useState } from 'react';
 import Modal from '@/components/display/Modal';
 import cogIcon from '@/assets/home/header/cog.svg';
 import accountIcon from '@/assets/home/account/account.svg';
+import { useMetamask } from '../context/MetamaskContext';
 
 function SettingsForm() {
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
+  const { disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
 
   const onSubmit = () => {};
@@ -54,7 +56,13 @@ function SettingsForm() {
           </fieldset>
         </div>
         <div className="mt-3 text-center">
-          <button>Sign Out</button>
+          <button
+            className="px-4 py-2 bg-black text-white hover:opacity-75 active:opacity-50 disabled:opacity-50"
+            disabled={isConnecting}
+            onClick={disconnect}
+          >
+            Sign Out
+          </button>
         </div>
       </Modal>
     </>
