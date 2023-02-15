@@ -3,24 +3,28 @@ import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import Feed from '@/components/home/Feed';
 import HomeHeader from '@/components/home/Header';
 import accountIcon from '@/assets/home/account/account.svg';
 import { useMetamask } from '@/components/context/MetamaskContext';
+import { getPostsFromIds } from '@/utils/methods/posts';
 
 const fields = ['addr', 'name', 'avatar', 'coverPhoto', 'bio'];
 
 function ProfilePage() {
   const router = useRouter();
+  const [posts, setPosts] = useState([]);
   const [profile, setProfile] = useState();
   const { contract, account } = useMetamask();
-  const [fetched, setFetched] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const { userAddr } = router.query;
 
   useEffect(() => {
     if (!account || !ethers.utils.isAddress(account)) return;
 
-    const init = () => {
+    const init = async () => {
       setProfile({});
       contract
         ?.getUser(userAddr)
@@ -35,6 +39,15 @@ function ProfilePage() {
           )
         )
         .catch((err) => console.log({ err }));
+
+      const postIds = await contract?.getPostIds(userAddr);
+      const _posts = await getPostsFromIds(contract, postIds);
+
+      const _isFollowing = await contract?.getIsFollowedBy(userAddr, account);
+
+      setPosts(_posts);
+      setIsFollowing(_isFollowing);
+      setHasFetched(true);
     };
 
     init();
@@ -67,8 +80,22 @@ function ProfilePage() {
               </h1>
               <small className="text-slate-500">{profile?.addr}</small>
               <p>{profile?.bio || "User hasn't set a bio"}</p>
+              {hasFetched && (
+                <button
+                  className="bg-black text-white py-2 px-4 mt-8 hover:opacity-75 active:opacity-50"
+                  onClick={() => {
+                    const action = () =>
+                      isFollowing
+                        ? contract?.unfollowUser(userAddr)
+                        : contract?.followUser(userAddr);
+                    action();
+                  }}
+                >
+                  {isFollowing ? 'Unfollow' : 'Follow'}
+                </button>
+              )}
             </div>
-            <div className="recent-posts"></div>
+            <Feed posts={posts} />
           </>
         )}
       </div>

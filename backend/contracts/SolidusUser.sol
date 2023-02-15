@@ -4,10 +4,10 @@
 pragma solidity ^0.8.0;
 
 contract SolidusUser {
-  mapping(address => User) private _users;
-  mapping(address => address[]) private _followerLists;
-  mapping(address => address[]) private _followingLists;
-  mapping(address => mapping(address => bool)) private _isFollowedBy;
+  mapping(address => User) internal users;
+  mapping(address => address[]) internal _followerLists;
+  mapping(address => address[]) internal _followingLists;
+  mapping(address => mapping(address => bool)) internal _isFollowedBy;
 
   struct User {
     address addr;
@@ -20,9 +20,9 @@ contract SolidusUser {
   function userAuth() public returns (User memory user) {
     if (userNotExists(msg.sender)) {
       user = User(msg.sender, '', '', '', '');
-      _users[msg.sender] = user;
+      users[msg.sender] = user;
     } else {
-      user = _users[msg.sender];
+      user = users[msg.sender];
     }
   }
 
@@ -32,14 +32,14 @@ contract SolidusUser {
     string calldata coverPhoto,
     string calldata bio
   ) public onlyWithAccount {
-    _users[msg.sender].name = name;
-    _users[msg.sender].avatar = avatar;
-    _users[msg.sender].coverPhoto = coverPhoto;
-    _users[msg.sender].bio = bio;
+    users[msg.sender].name = name;
+    users[msg.sender].avatar = avatar;
+    users[msg.sender].coverPhoto = coverPhoto;
+    users[msg.sender].bio = bio;
   }
 
   function userDelete() public onlyWithAccount {
-    delete _users[msg.sender];
+    delete users[msg.sender];
   }
 
   function followUser(address addr) public onlyWithAccount {
@@ -94,7 +94,7 @@ contract SolidusUser {
 
   /** ==== UTILITY ==== */
   function userNotExists(address addr) public view returns (bool) {
-    return _users[addr].addr == address(0);
+    return users[addr].addr == address(0);
   }
 
   /** ==== GETTERS ==== */
@@ -140,32 +140,33 @@ contract SolidusUser {
       string memory,
       string memory,
       string memory,
-      string memory
+      string memory,
+      bool
     )
   {
     return (
-      _users[user].addr,
-      _users[user].name,
-      _users[user].avatar,
-      _users[user].coverPhoto,
-      _users[user].bio
+      users[user].addr,
+      users[user].name,
+      users[user].avatar,
+      users[user].coverPhoto,
+      users[user].bio
     );
   }
 
   function getUserName(address user) public view returns (string memory) {
-    return _users[user].name;
+    return users[user].name;
   }
 
   function getUserBio(address user) public view returns (string memory) {
-    return _users[user].bio;
+    return users[user].bio;
   }
 
   function getUserAvatar(address user) public view returns (string memory) {
-    return _users[user].avatar;
+    return users[user].avatar;
   }
 
   function getUserCoverPhoto(address user) public view returns (string memory) {
-    return _users[user].coverPhoto;
+    return users[user].coverPhoto;
   }
 
   function getIsFollowedBy(
@@ -180,7 +181,7 @@ contract SolidusUser {
   /** ==== MODIFIERS ==== */
   modifier onlyWithAccount() {
     if (userNotExists(msg.sender)) {
-      _users[msg.sender] = User(msg.sender, '', '', '', '');
+      users[msg.sender] = User(msg.sender, '', '', '', '');
     }
     _;
   }

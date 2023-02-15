@@ -17,12 +17,35 @@ contract Solidus is SolidusPost, SolidusUser {
     return _owner;
   }
 
-  function getPosts(address user) public view returns (Post[] memory) {
-    return _getPosts(user);
-  }
-
-  function getPost(bytes32 uuid) public view returns (Post memory) {
-    return _getPost(uuid);
+  function getPost(
+    bytes32 uuid
+  )
+    public
+    view
+    returns (
+      bytes32,
+      string memory,
+      string memory,
+      address,
+      string memory,
+      string memory,
+      uint,
+      uint,
+      uint
+    )
+  {
+    Post storage post = posts[uuid];
+    return (
+      post.id,
+      post.text,
+      post.image,
+      post.createdBy,
+      users[post.createdBy].name,
+      users[post.createdBy].avatar,
+      post.createdAt,
+      post.updatedAt,
+      post.numLikes
+    );
   }
 
   function createPost(
