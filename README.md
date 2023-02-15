@@ -7,3 +7,4 @@ Decentralized social network built on the Ethereum blockchain
 ![Landing Page](./media/screenshots/home.png)
 ![Feed](./media/screenshots/feed.png)
 ![Profile](./media/screenshots/myprofile.png)
+![Settings](./media/screenshots/settings.png)
