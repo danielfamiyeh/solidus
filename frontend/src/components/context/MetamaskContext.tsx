@@ -1,7 +1,7 @@
 import { Contract, providers } from 'ethers';
 import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
-import { useContext, createContext, useState, useMemo, useEffect } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
 
 import { solidusAbi } from '@/utils/contract/solidus';
 
@@ -59,7 +59,7 @@ export const MetamaskProvider = ({ children }: { children: any }) => {
         const solidusContract = new Contract(
           String(process.env.solidusAddress),
           solidusAbi,
-          signer
+          web3Signer
         );
 
         setSigner(web3Signer);

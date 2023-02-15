@@ -1,15 +1,17 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 
 import sizes from '@/utils/constants/sizes';
 import searchIcon from '@/assets/home/header/search.svg';
 
 function SearchInput() {
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState('');
-  const [searchInputType, setSearchInputType] = useState('address');
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
+    router.push(`/profile/${searchValue}`);
   };
   return (
     <form
@@ -18,6 +20,7 @@ function SearchInput() {
     >
       <input
         type="text"
+        value={searchValue}
         placeholder="Paste user address..."
         onChange={({ target: { value } }) => setSearchValue(value)}
         className={`w-[100%] h-[${sizes.searchInputHeight}px] py-3 px-2 rounded-md mr-8`}

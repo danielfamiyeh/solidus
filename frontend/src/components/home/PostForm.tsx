@@ -3,10 +3,19 @@ import { useState } from 'react';
 
 import Modal from '@/components/display/Modal';
 import writeIcon from '@/assets/home/header/write.svg';
+import { useMetamask } from '../context/MetamaskContext';
 
 function PostForm() {
+  const { contract, signer } = useMetamask();
   const [showModal, setShowModal] = useState(false);
-  const onCreatePost = () => {};
+  const [postText, setPostText] = useState('');
+
+  const onCreatePost = () => {
+    contract
+      .createPost(postText, '')
+      .then((res: any) => console.log({ res }))
+      .catch((error: any) => console.log({ error }));
+  };
   return (
     <>
       <button
@@ -31,7 +40,11 @@ function PostForm() {
         }
         onHide={() => setShowModal(false)}
       >
-        <textarea className="resize-none w-[100%] border-black border-2 p-2 pb-64" />
+        <textarea
+          className="resize-none w-[100%] border-black border-2 p-2 pb-64"
+          onChange={({ target: { value } }) => setPostText(value)}
+          value={postText}
+        />
       </Modal>
     </>
   );

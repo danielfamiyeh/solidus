@@ -9,10 +9,15 @@ import { useMetamask } from '../context/MetamaskContext';
 function SettingsForm() {
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
-  const { disconnect, isConnecting } = useMetamask();
+  const [coverPhoto, setCoverPhoto] = useState('');
+  const [bio, setBio] = useState('');
+
+  const { account, contract, signer, disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    contract.userUpdate(name, image, coverPhoto, bio);
+  };
 
   return (
     <>
@@ -48,9 +53,25 @@ function SettingsForm() {
               <h1>Name</h1>
             </label>
             <input
+              value={name}
+              onChange={({ target: { value } }) => setName(value)}
               type="text"
               id="nameInput"
               placeholder="Enter your name..."
+              className="px-2 py-4 border-4 border-black"
+            />
+          </fieldset>
+
+          <fieldset className="flex flex-col mt-4">
+            <label htmlFor="nameInput">
+              <h1>Bio</h1>
+            </label>
+            <input
+              value={bio}
+              onChange={({ target: { value } }) => setBio(value)}
+              type="text"
+              id="nameInput"
+              placeholder="Enter your bio..."
               className="px-2 py-4 border-4 border-black"
             />
           </fieldset>
