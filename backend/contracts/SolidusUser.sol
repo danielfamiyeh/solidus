@@ -140,7 +140,8 @@ contract SolidusUser {
       string memory,
       string memory,
       string memory,
-      string memory
+      string memory,
+      bool
     )
   {
     return (

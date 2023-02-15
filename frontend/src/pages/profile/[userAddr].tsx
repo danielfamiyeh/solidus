@@ -3,14 +3,17 @@ import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import Feed from '@/components/home/Feed';
 import HomeHeader from '@/components/home/Header';
 import accountIcon from '@/assets/home/account/account.svg';
 import { useMetamask } from '@/components/context/MetamaskContext';
+import { getPostsFromIds } from '@/utils/methods/posts';
 
 const fields = ['addr', 'name', 'avatar', 'coverPhoto', 'bio'];
 
 function ProfilePage() {
   const router = useRouter();
+  const [posts, setPosts] = useState([]);
   const [profile, setProfile] = useState();
   const { contract, account } = useMetamask();
   const [fetched, setFetched] = useState(false);
@@ -20,7 +23,7 @@ function ProfilePage() {
   useEffect(() => {
     if (!account || !ethers.utils.isAddress(account)) return;
 
-    const init = () => {
+    const init = async () => {
       setProfile({});
       contract
         ?.getUser(userAddr)
@@ -35,6 +38,10 @@ function ProfilePage() {
           )
         )
         .catch((err) => console.log({ err }));
+
+      const postIds = await contract?.getPostIds(userAddr);
+      const _posts = await getPostsFromIds(contract, postIds);
+      setPosts(_posts);
     };
 
     init();
@@ -68,7 +75,7 @@ function ProfilePage() {
               <small className="text-slate-500">{profile?.addr}</small>
               <p>{profile?.bio || "User hasn't set a bio"}</p>
             </div>
-            <div className="recent-posts"></div>
+            <Feed posts={posts} />
           </>
         )}
       </div>

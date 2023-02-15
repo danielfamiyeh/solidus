@@ -2,53 +2,10 @@
 import moment from 'moment';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 import accountIcon from '@/assets/home/account/account.svg';
-import { useMetamask } from '@/components/context/MetamaskContext';
 
-const fields = [
-  'id',
-  'text',
-  'image',
-  'createdBy',
-  'createdByName',
-  'createdByAvatar',
-  'createdAt',
-  'updatedAt',
-];
-
-const getPostsFromIds = async (contract, postIds) =>
-  await Promise.all(
-    (postIds ?? []).map(async (postId) => {
-      const postValues = await contract?.getPost(postId);
-
-      return Object.assign(
-        {},
-        ...fields.map((field, i) => ({
-          [field]: postValues[i]?.toString(),
-        }))
-      );
-    })
-  );
-
-export default function Feed() {
-  const [posts, setPosts] = useState([]);
-  const { contract, account } = useMetamask();
-
-  useEffect(() => {
-    const init = async () => {
-      const userPostIds = await contract?.getPostIds(account);
-      const userPosts = await getPostsFromIds(contract, userPostIds);
-
-      setPosts(
-        [...userPosts].sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
-      );
-    };
-
-    init();
-  }, [account, contract]);
-
+export default function Feed({ posts }: FeedProps) {
   return (
     <div className="post-feed border-slate w-[100%] h-[calc(100%)] overflow-auto">
       {posts.map((post, i) => (
@@ -91,4 +48,8 @@ export default function Feed() {
       ))}
     </div>
   );
+}
+
+interface FeedProps {
+  posts: any[];
 }
