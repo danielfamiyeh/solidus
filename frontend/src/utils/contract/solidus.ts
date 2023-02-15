@@ -14,7 +14,7 @@ export const solidusAbi = [
   'function getFollowingList(address user) public view returns (address[])',
   'function isFollowing(address user) public view returns (bool)',
   'function isFollowedBy(address user) public view returns (bool)',
-  'function getUser(address user) public view returns (User)',
+  'function getUser(address user) public view returns (address, string, string, string, string)',
   'function getUserName(address user) public view returns (string)',
   'function getUserAvatar(address user) public view returns (string)',
   'function getUserBio(address user) public view returns (string)',
