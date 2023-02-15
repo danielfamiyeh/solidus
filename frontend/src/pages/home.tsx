@@ -5,6 +5,7 @@ import HomeHeader from '@/components/home/Header';
 
 import { getPostsFromIds } from '@/utils/methods/posts';
 import { useMetamask } from '@/components/context/MetamaskContext';
+import ProtectedRoute from '@/components/routing/ProtectedRoute';
 
 function Home() {
   const { contract, account } = useMetamask();
@@ -30,12 +31,14 @@ function Home() {
   });
 
   return (
-    <div className="home-page h-screen flex justify-center">
-      <HomeHeader />
-      <div className="content-container w-screen lg:w-1/2 max-w-xl mt-[96px]">
-        <Feed posts={data ?? []} />
+    <ProtectedRoute>
+      <div className="home-page h-screen flex justify-center">
+        <HomeHeader />
+        <div className="content-container w-screen lg:w-1/2 max-w-xl mt-[96px]">
+          <Feed posts={data ?? []} />
+        </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 }
 
