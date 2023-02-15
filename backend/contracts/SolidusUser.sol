@@ -130,8 +130,26 @@ contract SolidusUser {
     return _isFollowedBy[msg.sender][user];
   }
 
-  function getUser(address user) public view returns (User memory) {
-    return _users[user];
+  function getUser(
+    address user
+  )
+    public
+    view
+    returns (
+      address,
+      string memory,
+      string memory,
+      string memory,
+      string memory
+    )
+  {
+    return (
+      _users[user].addr,
+      _users[user].name,
+      _users[user].avatar,
+      _users[user].coverPhoto,
+      _users[user].bio
+    );
   }
 
   function getUserName(address user) public view returns (string memory) {
