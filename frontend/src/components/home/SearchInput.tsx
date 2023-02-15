@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
@@ -11,7 +12,11 @@ function SearchInput() {
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
-    router.push(`/profile/${searchValue}`);
+    if (ethers.utils.isAddress(searchValue)) {
+      return router.push(`/profile/${searchValue}`);
+    }
+
+    alert('Please enter a valid address');
   };
   return (
     <form

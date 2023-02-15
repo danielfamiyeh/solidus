@@ -68,19 +68,29 @@ function ProfilePage() {
         ) : (
           <>
             <div className="user-meta flex flex-col border-b-2 border-black px-2 py-4 text-center">
-              <Image
-                src={profile?.avatar ? avatar : accountIcon}
-                alt="Account icon"
-                className="self-center"
-                width={128}
-                height={128}
-              />
+              {profile.avatar ? (
+                <img
+                  className="rounded-full self-center"
+                  src={profile.avatar}
+                  width={128}
+                  height={128}
+                  alt="User avatar"
+                />
+              ) : (
+                <Image
+                  src={accountIcon}
+                  alt="Account icon"
+                  className="self-center"
+                  width={128}
+                  height={128}
+                />
+              )}
               <h1 className="text-2xl">
                 {profile?.name || "User hasn't set a name"}
               </h1>
               <small className="text-slate-500">{profile?.addr}</small>
               <p>{profile?.bio || "User hasn't set a bio"}</p>
-              {hasFetched && (
+              {hasFetched && userAddr !== account && (
                 <button
                   className="bg-black text-white py-2 px-4 mt-8 hover:opacity-75 active:opacity-50"
                   onClick={() => {

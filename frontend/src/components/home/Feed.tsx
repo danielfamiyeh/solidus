@@ -17,13 +17,23 @@ export default function Feed({ posts }: FeedProps) {
             href={`/profile/${post.createdBy}`}
             className="post-feed__post-item-meta flex items-center cursor-pointer px-2 my-2 hover:opacity-75 active:opacity-50"
           >
-            <Image
-              className="rounded-full mr-2"
-              src={post.createdByAvatar || accountIcon}
-              width={64}
-              height={64}
-              alt="Profile avatar"
-            />
+            {post.createdByAvatar ? (
+              <img
+                className="rounded-full"
+                src={post.createdByAvatar}
+                alt="User avatar"
+                width={64}
+                height={64}
+              />
+            ) : (
+              <Image
+                className="rounded-full mr-2"
+                src={accountIcon}
+                width={64}
+                height={64}
+                alt="Profile avatar"
+              />
+            )}
             <div>
               <h2 className="text-xl">{post.createdByName}</h2>
               <p className="text-sm text-black/50">{post.createdBy}</p>
