@@ -17,6 +17,21 @@ const fields = [
   'createdAt',
   'updatedAt',
 ];
+
+const getPostsFromIds = async (contract, postIds) =>
+  await Promise.all(
+    (postIds ?? []).map(async (postId) => {
+      const postValues = await contract?.getPost(postId);
+
+      return Object.assign(
+        {},
+        ...fields.map((field, i) => ({
+          [field]: postValues[i]?.toString(),
+        }))
+      );
+    })
+  );
+
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const { contract, account } = useMetamask();
@@ -24,19 +39,7 @@ export default function Feed() {
   useEffect(() => {
     const init = async () => {
       const userPostIds = await contract?.getPostIds(account);
-
-      const userPosts = await Promise.all(
-        userPostIds?.map(async (postId) => {
-          const postValues = await contract?.getPost(postId);
-
-          return Object.assign(
-            {},
-            ...fields.map((field, i) => ({
-              [field]: postValues[i]?.toString(),
-            }))
-          );
-        })
-      );
+      const userPosts = await getPostsFromIds(contract, userPostIds);
 
       setPosts(
         [...userPosts].sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
