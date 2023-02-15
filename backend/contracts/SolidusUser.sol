@@ -98,16 +98,12 @@ contract SolidusUser {
   }
 
   /** ==== GETTERS ==== */
-  function getNumFollowers(
-    address user
-  ) public view onlyWithAccount returns (uint) {
+  function getNumFollowers(address user) public view returns (uint) {
     require(!userNotExists(user), "User doesn't exist");
     return _followerLists[msg.sender].length;
   }
 
-  function getNumFollowing(
-    address user
-  ) public view onlyWithAccount returns (uint) {
+  function getNumFollowing(address user) public view returns (uint) {
     require(!userNotExists(user), "User doesn't exist");
     return _followerLists[msg.sender].length;
   }
@@ -126,20 +122,20 @@ contract SolidusUser {
     return _followingLists[user];
   }
 
-  function isFollowing(
-    address user
-  ) public view onlyWithAccount returns (bool) {
+  function isFollowing(address user) public view returns (bool) {
     return _isFollowedBy[user][msg.sender];
   }
 
-  function isFollowedBy(
-    address user
-  ) public view onlyWithAccount returns (bool) {
+  function isFollowedBy(address user) public view returns (bool) {
     return _isFollowedBy[msg.sender][user];
   }
 
   function getUser(address user) public view returns (User memory) {
     return _users[user];
+  }
+
+  function getUserName(address user) public view returns (string memory) {
+    return _users[user].name;
   }
 
   function getIsFollowedBy(
@@ -153,7 +149,9 @@ contract SolidusUser {
 
   /** ==== MODIFIERS ==== */
   modifier onlyWithAccount() {
-    require(!userNotExists(msg.sender), 'Please create an account');
+    if (userNotExists(msg.sender)) {
+      _users[msg.sender] = User(msg.sender, '', '', '', '');
+    }
     _;
   }
 }

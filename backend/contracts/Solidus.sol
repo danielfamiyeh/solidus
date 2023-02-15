@@ -9,7 +9,7 @@ pragma solidity ^0.8.0;
 contract Solidus is SolidusPost, SolidusUser {
   address private _owner;
 
-  constructor() {
+  constructor() SolidusPost() SolidusUser() {
     _owner = msg.sender;
   }
 
@@ -17,15 +17,11 @@ contract Solidus is SolidusPost, SolidusUser {
     return _owner;
   }
 
-  function getPosts(
-    address user
-  ) public view onlyWithAccount returns (Post[] memory) {
+  function getPosts(address user) public view returns (Post[] memory) {
     return _getPosts(user);
   }
 
-  function getPost(
-    bytes32 uuid
-  ) public view onlyWithAccount returns (Post memory) {
+  function getPost(bytes32 uuid) public view returns (Post memory) {
     return _getPost(uuid);
   }
 
