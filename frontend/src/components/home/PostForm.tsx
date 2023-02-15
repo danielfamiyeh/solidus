@@ -10,11 +10,12 @@ function PostForm() {
   const { contract } = useMetamask();
   const queryClient = useQueryClient();
   const [postText, setPostText] = useState('');
+  const [postImage, setPostImage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
   const onCreatePost = () => {
     contract
-      .createPost(postText, '')
+      .createPost(postText, postImage)
       .then((res: any) => {
         queryClient.invalidateQueries('feed');
         setShowModal(false);
@@ -46,11 +47,30 @@ function PostForm() {
         }
         onHide={() => setShowModal(false)}
       >
-        <textarea
-          className="resize-none w-[100%] border-black border-2 p-2 pb-64"
-          onChange={({ target: { value } }) => setPostText(value)}
-          value={postText}
-        />
+        <fieldset className="flex flex-col">
+          <label htmlFor="textInput">
+            <h1>Text</h1>
+          </label>
+          <textarea
+            placeholder="Start typing..."
+            className="resize-none w-[100%] border-black border-2 p-2 pb-64"
+            onChange={({ target: { value } }) => setPostText(value)}
+            value={postText}
+          />
+        </fieldset>
+
+        <fieldset className="flex flex-col mt-4">
+          <label htmlFor="imageInput">
+            <h1>Image</h1>
+          </label>
+          <input
+            type="text"
+            placeholder="Paste image URL..."
+            className="resize-none w-[100%] border-black border-2 p-2"
+            onChange={({ target: { value } }) => setPostImage(value)}
+            value={postImage}
+          />
+        </fieldset>
       </Modal>
     </>
   );

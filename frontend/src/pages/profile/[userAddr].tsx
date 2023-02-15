@@ -45,7 +45,7 @@ function ProfilePage() {
 
       const _isFollowing = await contract?.getIsFollowedBy(userAddr, account);
 
-      setPosts(_posts);
+      setPosts(_posts.reverse());
       setIsFollowing(_isFollowing);
       setHasFetched(true);
     };
@@ -89,7 +89,7 @@ function ProfilePage() {
                 {profile?.name || "User hasn't set a name"}
               </h1>
               <small className="text-slate-500">{profile?.addr}</small>
-              <p>{profile?.bio || "User hasn't set a bio"}</p>
+              {!!profile?.bio && <p>{profile?.bio}</p>}
               {hasFetched && userAddr !== account && (
                 <button
                   className="bg-black text-white py-2 px-4 mt-8 hover:opacity-75 active:opacity-50"

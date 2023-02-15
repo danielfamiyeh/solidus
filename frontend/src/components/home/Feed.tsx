@@ -19,7 +19,7 @@ export default function Feed({ posts }: FeedProps) {
           >
             {post.createdByAvatar ? (
               <img
-                className="rounded-full"
+                className="rounded-full mr-2"
                 src={post.createdByAvatar}
                 alt="User avatar"
                 width={64}
@@ -46,11 +46,13 @@ export default function Feed({ posts }: FeedProps) {
             <p className="my-2">{post.text}</p>
             {!!post.text && !!post.image && <hr className="mb-4" />}
             {!!post.image && (
-              <img
-                className="my-2 border-black border-2"
-                src={post.image}
-                alt="Post image"
-              />
+              <div className="text-center flex justify-center">
+                <img
+                  className="my-2 border-black border-2"
+                  src={post.image}
+                  alt="Post image"
+                />
+              </div>
             )}
           </div>
           <hr className="mt-4 mb-6" />

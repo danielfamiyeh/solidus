@@ -18,19 +18,19 @@ function SettingsForm() {
   const { account, contract, disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
 
-  const { refetch } = useQuery(['settings', !!contract, account], async () => {
+  useQuery(['settings', !!contract, account], async () => {
     const user = await contract?.getUser(account);
     if (!user) return;
-    const [, name, , , bio] = user;
+    const [, name, avatar, , bio] = user;
     setName(name);
     setBio(bio);
+    setImage(avatar);
     setIsInitialized(true);
   });
 
   const onSubmit = () => {
     contract.userUpdate(name, image, coverPhoto, bio).then(() => {
-      queryClient.invalidateQueries(['settings', 'feed']);
-      refetch();
+      queryClient.invalidateQueries(['feed']);
     });
   };
 
@@ -60,17 +60,22 @@ function SettingsForm() {
         }
       >
         <div className="flex flex-col gap-y-px pt-2">
-          <div className="rounded-full border-4 border-black self-center w-[128px] h-[128px] hover:opacity-50 active:opacity-25">
+          <div className="rounded-full border-4 border-black self-center overflow-hidden">
             {image ? (
               <img
-                className="rounded-full"
+                // className="rounded-full"
                 src={image}
                 alt="User avatar"
                 width={128}
                 height={128}
               />
             ) : (
-              <Image src={accountIcon} alt="Default avatar" />
+              <Image
+                src={accountIcon}
+                alt="Default avatar"
+                width={128}
+                height={128}
+              />
             )}
           </div>
 
