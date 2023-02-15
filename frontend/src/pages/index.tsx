@@ -1,15 +1,22 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import { useAccount } from 'wagmi';
-import { Web3Button } from '@web3modal/react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 import landingBlobs from '@/assets/landing/blobs';
 import LandingHeader from '@/components/landing/Header';
+import { useMetamask } from '@/components/context/MetamaskContext';
 
 const blobSize = 240;
 
 export default function Landing() {
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const router = useRouter();
+  const { connect, disconnect, account, isActive, isConnecting } =
+    useMetamask();
+
+  useEffect(() => {
+    if (account) router.push('/home');
+  }, [account]);
 
   return (
     <>
@@ -40,7 +47,13 @@ export default function Landing() {
               content, and build a better online experience - all without the
               risk of data breaches, censorship, or manipulation.
             </p>
-            <Web3Button />
+            <button
+              className="px-4 py-2 bg-black text-white hover:opacity-75 active:opacity-50 disabled:opacity-50"
+              disabled={isConnecting}
+              onClick={account ? disconnect : connect}
+            >
+              {account ? 'Disconnect' : 'Connect'} Wallet
+            </button>
           </div>
           <div className="hero__right border-zinc w-1/2 hidden lg:flex flex-col items-center justify-center">
             <div className="flex items-center justify-center">
