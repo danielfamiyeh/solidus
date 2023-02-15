@@ -18,19 +18,19 @@ function SettingsForm() {
   const { account, contract, disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
 
-  const { refetch } = useQuery(['settings', !!contract, account], async () => {
+  useQuery(['settings', !!contract, account], async () => {
     const user = await contract?.getUser(account);
     if (!user) return;
-    const [, name, , , bio] = user;
+    const [, name, avatar, , bio] = user;
     setName(name);
     setBio(bio);
+    setImage(avatar);
     setIsInitialized(true);
   });
 
   const onSubmit = () => {
     contract.userUpdate(name, image, coverPhoto, bio).then(() => {
-      queryClient.invalidateQueries(['settings', 'feed']);
-      refetch();
+      queryClient.invalidateQueries(['feed']);
     });
   };
 
@@ -60,9 +60,38 @@ function SettingsForm() {
         }
       >
         <div className="flex flex-col gap-y-px pt-2">
-          <button className="rounded-full border-4 border-black self-center w-[128px] h-[128px] hover:opacity-50 active:opacity-25">
-            <Image src={image ? image : accountIcon} alt="Account icon" />
-          </button>
+          <div className="rounded-full border-4 border-black self-center overflow-hidden">
+            {image ? (
+              <img
+                // className="rounded-full"
+                src={image}
+                alt="User avatar"
+                width={128}
+                height={128}
+              />
+            ) : (
+              <Image
+                src={accountIcon}
+                alt="Default avatar"
+                width={128}
+                height={128}
+              />
+            )}
+          </div>
+
+          <fieldset className="flex flex-col">
+            <label htmlFor="avatarInput">
+              <h1>Avatar</h1>
+            </label>
+            <input
+              value={image}
+              onChange={({ target: { value } }) => setImage(value)}
+              type="text"
+              id="avatarInput"
+              placeholder="Paste image URL..."
+              className="px-2 py-4 border-4 border-black"
+            />
+          </fieldset>
 
           <fieldset className="flex flex-col">
             <label htmlFor="nameInput">
@@ -79,14 +108,14 @@ function SettingsForm() {
           </fieldset>
 
           <fieldset className="flex flex-col mt-4">
-            <label htmlFor="nameInput">
+            <label htmlFor="bioInput">
               <h1>Bio</h1>
             </label>
             <input
               value={bio}
               onChange={({ target: { value } }) => setBio(value)}
               type="text"
-              id="nameInput"
+              id="bioInput"
               placeholder="Enter your bio..."
               className="px-2 py-4 border-4 border-black"
             />
