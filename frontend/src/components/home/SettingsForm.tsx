@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Modal from '@/components/display/Modal';
 import cogIcon from '@/assets/home/header/cog.svg';
@@ -7,10 +7,11 @@ import accountIcon from '@/assets/home/account/account.svg';
 import { useMetamask } from '../context/MetamaskContext';
 
 function SettingsForm() {
+  const [bio, setBio] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
   const [coverPhoto, setCoverPhoto] = useState('');
-  const [bio, setBio] = useState('');
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const { account, contract, signer, disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +19,19 @@ function SettingsForm() {
   const onSubmit = () => {
     contract.userUpdate(name, image, coverPhoto, bio);
   };
+
+  useEffect(() => {
+    const init = () => {
+      contract?.getUser(account).then((res) => {
+        const [, name, , , bio] = res;
+        setName(name);
+        setBio(bio);
+        setIsInitialized(true);
+      });
+    };
+
+    init();
+  }, []);
 
   return (
     <>
@@ -35,8 +49,9 @@ function SettingsForm() {
         Footer={
           <footer className="text-center">
             <button
-              className="border-4 border-black px-2 py-1 font-bold hover:opacity-50 active:opacity-25"
+              className="border-4 border-black px-2 py-1 font-bold hover:opacity-75 active:opacity-50 disabled:opacity-50"
               onClick={onSubmit}
+              disabled={!isInitialized}
             >
               Submit
             </button>

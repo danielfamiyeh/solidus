@@ -21,7 +21,8 @@ export const solidusAbi = [
   'function getIsFollowedBy(address user1, address user2) public view returns (bool)',
   // SolidusPost
   'function getPosts(address user) public view returns (Post[])',
-  'function getPost(bytes32 uuid) public view returns (Post)',
+  'function getPost(bytes32 uuid) public view returns (bytes32, string, string, address, string, string uint, uint, uint)',
   'function createPost(string text,string image) public',
   'function updatePost(bytes32 uuid, string text, string image) public',
+  'function getPostIds(address user) public view returns (bytes32[])',
 ];

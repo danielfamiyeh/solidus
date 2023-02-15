@@ -4,10 +4,12 @@
 pragma solidity ^0.8.0;
 
 contract SolidusPost {
-  mapping(bytes32 => Post) private posts;
-  mapping(address => bytes32[]) private postIds;
-  mapping(bytes32 => PostComment[]) private postComments;
-  mapping(address => mapping(bytes32 => bool)) private isPostLikedByUser;
+  uint internal constant NUM_RECENT_POSTS = 10;
+
+  mapping(bytes32 => Post) internal posts;
+  mapping(address => bytes32[]) internal postIds;
+  mapping(bytes32 => PostComment[]) internal postComments;
+  mapping(address => mapping(bytes32 => bool)) internal isPostLikedByUser;
 
   event CreatePost(
     address indexed user,
@@ -40,8 +42,7 @@ contract SolidusPost {
     address createdBy;
   }
 
-  /** ==== GETTERS ==== */
-  function _getPosts(address user) internal view returns (Post[] memory) {
+  function getPosts(address user) public view returns (Post[] memory) {
     bytes32[] memory _postIds = postIds[user];
     Post[] memory userPosts = new Post[](_postIds.length);
 
@@ -52,8 +53,8 @@ contract SolidusPost {
     return userPosts;
   }
 
-  function _getPost(bytes32 uuid) internal view returns (Post memory) {
-    return posts[uuid];
+  function getPostIds(address user) public view returns (bytes32[] memory) {
+    return postIds[user];
   }
 
   /** ==== MUTATIONS ==== */
