@@ -12,9 +12,22 @@ function Home() {
     const init = async () => {
       const userPostIds = await contract?.getPostIds(account);
       const userPosts = await getPostsFromIds(contract, userPostIds);
+      const followedUsers = await contract?.getFollowingList(account);
+      const followedUsersPostIds = await Promise.all(
+        followedUsers.map((followedUserId) =>
+          contract?.getPostIds(followedUserId)
+        )
+      );
+      const followedUsersPosts = await Promise.all(
+        followedUsersPostIds.map((postIds) =>
+          getPostsFromIds(contract, postIds)
+        )
+      );
 
       setPosts(
-        [...userPosts].sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))
+        [...userPosts, ...followedUsersPosts.flat()].sort((a, b) =>
+          a.createdAt > b.createdAt ? -1 : 1
+        )
       );
     };
 
