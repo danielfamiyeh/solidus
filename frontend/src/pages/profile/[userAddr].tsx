@@ -8,6 +8,9 @@ function ProfilePage() {
   const router = useRouter();
   const { contract, signer, account } = useMetamask();
   const [profile, setProfile] = useState();
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
+
   const { userAddr } = router.query;
 
   useEffect(() => {
@@ -16,14 +19,26 @@ function ProfilePage() {
     const init = () => {
       contract
         ?.getUserName(account)
-        .then((res) => console.log({ res }))
+        .then((res) => setName(res))
+        .catch((err) => console.log({ err }));
+
+      contract
+        ?.getUserBio(account)
+        .then((res) => setBio(res))
         .catch((err) => console.log({ err }));
     };
 
     init();
   }, [account]);
 
-  return <div className="h-screen">{userAddr}</div>;
+  console.log({ name, bio });
+
+  return (
+    <div className="h-screen">
+      <p>{name || 'No name set'}</p>
+      <p>{bio || 'No bio set'}</p>
+    </div>
+  );
 }
 
 export default ProfilePage;

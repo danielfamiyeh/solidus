@@ -138,6 +138,18 @@ contract SolidusUser {
     return _users[user].name;
   }
 
+  function getUserBio(address user) public view returns (string memory) {
+    return _users[user].bio;
+  }
+
+  function getUserAvatar(address user) public view returns (string memory) {
+    return _users[user].avatar;
+  }
+
+  function getUserCoverPhoto(address user) public view returns (string memory) {
+    return _users[user].coverPhoto;
+  }
+
   function getIsFollowedBy(
     address user1,
     address user2

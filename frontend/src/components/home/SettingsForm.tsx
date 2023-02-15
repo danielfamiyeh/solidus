@@ -61,6 +61,20 @@ function SettingsForm() {
               className="px-2 py-4 border-4 border-black"
             />
           </fieldset>
+
+          <fieldset className="flex flex-col mt-4">
+            <label htmlFor="nameInput">
+              <h1>Bio</h1>
+            </label>
+            <input
+              value={bio}
+              onChange={({ target: { value } }) => setBio(value)}
+              type="text"
+              id="nameInput"
+              placeholder="Enter your bio..."
+              className="px-2 py-4 border-4 border-black"
+            />
+          </fieldset>
         </div>
         <div className="mt-3 text-center">
           <button
