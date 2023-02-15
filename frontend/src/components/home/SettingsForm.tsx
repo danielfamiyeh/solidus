@@ -18,7 +18,7 @@ function SettingsForm() {
   const { account, contract, disconnect, isConnecting } = useMetamask();
   const [showModal, setShowModal] = useState(false);
 
-  useQuery(['settings', !!contract, account], async () => {
+  useQuery(['settings', !!contract, account, showModal], async () => {
     const user = await contract?.getUser(account);
     if (!user) return;
     const [, name, avatar, , bio] = user;
@@ -30,6 +30,7 @@ function SettingsForm() {
 
   const onSubmit = () => {
     contract.userUpdate(name, image, coverPhoto, bio).then(() => {
+      setShowModal(false);
       queryClient.invalidateQueries(['feed']);
     });
   };
